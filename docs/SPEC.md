@@ -22,11 +22,12 @@ site/                         everything that ships, exactly as it ships
   fonts/archivo.woff2
   fonts/jetbrains-mono.woff2
   img/favicon.svg  img/favicon-32.png  img/apple-touch-icon.png  img/card.png
+  img/tear.svg                the receipt's torn edge, preloaded so the notice needs no request
   robots.txt  humans.txt  CNAME
   .well-known/security.txt
 tests/
   unit/*.test.js              node:test, no dependencies
-  e2e/*.spec.js               Playwright
+  e2e/*.spec.js               Playwright, with e2e/helpers.js for the shared steps
   manual/probe.html           the hardware probe (section 12), never shipped
 scripts/
   check-copy.mjs  check-source.mjs  check-budgets.mjs
@@ -34,6 +35,8 @@ scripts/
   make-images.mjs             renders the share card and icons with Playwright
 docs/
 .github/workflows/ship.yml
+fonts-src/                    the font licences (OFL)
+playwright.config.js  .htmlvalidate.json
 .github/dependabot.yml
 package.json                  dev tooling only. nothing in site/ depends on it.
 ```
@@ -165,7 +168,7 @@ Background: what browsers do here is partly unverified (ADR-0006), so every step
 - **One utterance per line.** The spoken text is `say` if present, else `text`, with tokens filled in, lowercased, brackets and repeated spaces removed.
 - **End of a line's speech** is the utterance's `end` or `error` event, or a timeout of `characters × 90 + 2000` ms, whichever comes first. Never wait on `boundary` events.
 - **A silent run resolves every line's speech at once.** Voice off, no local voice, or blocked: `say()` returns a resolved promise and the typing sets the pace. This also keeps headless test runs fast.
-- **If the first utterance of `awake` produces no `start` event within 1500 ms,** speech is assumed blocked. Try once more on the victim's next key press or click (that is a real gesture). If that fails as well, stay silent for the run.
+- **If the first utterance of `awake` produces no `start` event within 3000 ms,** speech is assumed blocked. Try once more on the victim's next key press or click (that is a real gesture). If that fails as well, stay silent for the run.
 - **Stopping:** `speechSynthesis.cancel()`. When speaking again right after a cancel (the skip to the notice), wait 100 ms first.
 - Everything in this module that touches `speechSynthesis` is inside `try/catch`. A throw means silence.
 
@@ -321,7 +324,7 @@ Headless browsers may refuse fullscreen and have no voices. The tests accept bot
 | Default pause after a line | 500 ms |
 | Speech rate / pitch | 0.92 / 1 |
 | Speech timeout per line | chars × 90 + 2000 ms |
-| Speech start check | 1500 ms |
+| Speech start check | 3000 ms (1500 cut off slow first utterances in review) |
 | Blur counts as lock after | 2 s |
 | Heartbeat gap counts as lock after | 5 s |
 | Fullscreen-exit decision delay in `notice` | 600 ms |

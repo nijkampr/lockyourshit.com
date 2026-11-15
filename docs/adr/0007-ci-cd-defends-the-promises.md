@@ -1,6 +1,6 @@
 # ADR-0007: CI/CD exists to defend the promises
 
-**Status:** Proposed · 2026-11-16
+**Status:** Accepted · 2026-11-16
 
 ## Context
 

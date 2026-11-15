@@ -1,6 +1,6 @@
 # ADR-0003: Esc always works, and the release is the lock shortcut
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16
+**Status:** Accepted · 2026-11-15, updated 2026-11-16
 
 ## Context
 

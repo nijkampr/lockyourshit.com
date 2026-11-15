@@ -43,7 +43,7 @@ Body:
 >
 > `01` Find an unlocked laptop. There's always one.
 > `02` Arm it. The screen goes black, like it fell asleep.
-> `03` Watch from a safe distance.
+> `03` When they touch it, it wakes up. Watch from a safe distance.
 >
 > voice: on / off
 

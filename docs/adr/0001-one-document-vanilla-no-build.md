@@ -1,6 +1,6 @@
 # ADR-0001: One document, vanilla, no build
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16
+**Status:** Accepted · 2026-11-15, updated 2026-11-16
 
 ## Context
 
@@ -23,7 +23,7 @@ CI checks and deploys (ADR-0007). It never generates or rewrites anything in `si
 
 ## Alternatives rejected
 
-- **A framework or bundler.** The site is about 40 KB of our own code. A build step would put a dependency tree under a site whose selling point is that you can read all of it.
+- **A framework or bundler.** The site is about 55 KB of our own code. A build step would put a dependency tree under a site whose selling point is that you can read all of it.
 - **Separate landing and prank pages.** Loses the user gesture on navigation.
 - **Personalities as JSON fetched on demand.** A fetch during the prank is a request after arming, which breaks ADR-0005.
 - **Serving the repo root.** Would publish docs and tests. See ADR-0007.
@@ -31,6 +31,6 @@ CI checks and deploys (ADR-0007). It never generates or rewrites anything in `si
 ## Consequences
 
 - The View Source test passes by construction.
-- No minification. Fine at this size.
+- No minification.
 - Dev tooling (Playwright, linters) lives outside `site/` and is never shipped.
 - If the site outgrows one document, that's a new ADR, and it has to solve the gesture problem first.
