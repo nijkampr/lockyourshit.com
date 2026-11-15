@@ -19,7 +19,7 @@ Deploying the repo root with "Pages from branch" would also publish `docs/`, `te
 | `static` | `check-copy`, `check-source`, `check-budgets`, `html-validate` on `site/*.html` | No dashes or banned words. No external URLs, never-list APIs, forbidden CSS, `console.log`. The exact CSP string. `localStorage` in one file only. `security.txt` not about to expire. Size budgets. |
 | `unit` | `node --test tests/unit` | The numbers are right. Every personality passes the panic-rule deny-list. |
 | `e2e` | Playwright on Chromium, Firefox and WebKit (matrix) | The prank runs. Esc works from every state. Zero requests after load. One storage key. No never-list API called. No accessibility violations. Uploads the screenshots. |
-| `deploy` | Only on push to `main`, `needs: [static, unit, e2e]`. Uploads `site/` as the Pages artifact and deploys it. | Only checked code ships, and only `site/` ships. |
+| `package`, `deploy` | Only on push to `main`, after `static`, `unit` and `e2e`. `package` uploads `site/` as the Pages artifact, `deploy` publishes it. Two jobs because deploying in the uploading job can miss the artifact (actions/deploy-pages#451). | Only checked code ships, and only `site/` ships. |
 | `smoke` | After `deploy`: fetch the live URL, expect 200 and the CSP meta tag in the body. | The deploy worked. |
 
 Pull requests and pushes to other branches run everything except `deploy` and `smoke`.
