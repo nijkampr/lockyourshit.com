@@ -271,7 +271,8 @@ at                         14:07
 offences here    1 (that we know of)
 witnesses           at least one
 unlocked worldwide
-   we don't count. we don't track.
+   we don't count.
+   we don't track.
    assume everyone.
 - - - - - - - - - - - - - - - - -
 IN 14:32 A STRANGER COULD HAVE

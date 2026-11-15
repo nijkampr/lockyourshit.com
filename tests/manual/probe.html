@@ -1,0 +1,87 @@
+<!doctype html>
+<!--
+  The hardware probe (docs/SPEC.md section 12). Never shipped. Answers the questions
+  docs and headless browsers can't: does speech survive a silent prime, which voices
+  are on-device, and what a page sees when the OS locks.
+
+  Run: python3 -m http.server 8001 --directory tests/manual
+  Open http://localhost:8001/probe.html, click the button, follow the steps on screen.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>probe</title>
+  <style>
+    body { background: #000; color: #F4F1EA; font: 15px/1.5 ui-monospace, Menlo, monospace; margin: 2rem; }
+    button { font: inherit; padding: 0.6rem 1rem; margin-right: 1rem; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <p>1. Click start. 2. Don't touch anything for 15 seconds. 3. Press the lock shortcut, wait 10 seconds, log back in. 4. Press copy log and paste it back.</p>
+  <p><button id="start">start</button><button id="copy">copy log</button></p>
+  <pre id="log"></pre>
+  <script>
+    const started = Date.now();
+    const lines = [];
+    const log = (what) => {
+      lines.push(`${String(((Date.now() - started) / 1000).toFixed(1)).padStart(7)}s  ${what}`);
+      document.getElementById('log').textContent = lines.join('\n');
+    };
+    log(`ua: ${navigator.userAgent}`);
+    log(`platform: ${navigator.userAgentData?.platform ?? navigator.platform}`);
+
+    const voices = () => speechSynthesis.getVoices()
+      .filter((v) => v.lang.startsWith('en'))
+      .map((v) => `${v.name} [${v.lang}] ${v.localService ? 'local' : 'REMOTE'}`);
+
+    document.getElementById('start').addEventListener('click', async () => {
+      try {
+        await document.documentElement.requestFullscreen();
+        log('fullscreen: granted');
+      } catch (error) {
+        log(`fullscreen: refused (${error.name})`);
+      }
+      const prime = new SpeechSynthesisUtterance('armed');
+      prime.volume = 0;
+      prime.onstart = () => log('prime: started');
+      prime.onend = () => log('prime: ended');
+      prime.onerror = (e) => log(`prime: error ${e.error}`);
+      speechSynthesis.speak(prime);
+      log(`english voices: ${voices().length}`);
+      voices().forEach((v) => log(`  ${v}`));
+
+      setTimeout(() => {
+        const line = new SpeechSynthesisUtterance('hello. you were gone for ten seconds.');
+        const local = speechSynthesis.getVoices().find((v) => v.localService && v.lang.startsWith('en'));
+        if (local) line.voice = local;
+        line.onstart = () => log('timer speech: started (good: speech works without a fresh click)');
+        line.onend = () => log('timer speech: ended');
+        line.onerror = (e) => log(`timer speech: error ${e.error}`);
+        speechSynthesis.speak(line);
+        log(`timer speech: queued with ${local ? local.name : 'default voice'}. lock the machine now.`);
+      }, 10000);
+
+      let last = Date.now();
+      setInterval(() => {
+        const now = Date.now();
+        if (now - last > 3000) log(`heartbeat gap: ${((now - last) / 1000).toFixed(1)}s`);
+        last = now;
+      }, 1000);
+    });
+
+    document.addEventListener('visibilitychange', () => log(`visibilitychange: hidden=${document.hidden}`));
+    addEventListener('blur', () => log('window blur'));
+    addEventListener('focus', () => log('window focus'));
+    document.addEventListener('fullscreenchange', () => log(`fullscreenchange: ${document.fullscreenElement ? 'in' : 'out'}`));
+    addEventListener('pointermove', (() => {
+      let logged = 0;
+      return () => { if (Date.now() - logged > 5000) { logged = Date.now(); log('pointermove'); } };
+    })());
+
+    document.getElementById('copy').addEventListener('click', () => {
+      navigator.clipboard.writeText(lines.join('\n')).then(() => log('log copied'));
+    });
+  </script>
+</body>
+</html>

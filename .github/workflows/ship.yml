@@ -1,0 +1,107 @@
+# Every job here defends a promise the site makes (docs/adr/0007). Deploy runs only
+# on main, only after every gate is green, and only ships site/.
+name: ship
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LIVE_URL: https://nijkampr.github.io/lockyourshit.com/
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: npm run check:static
+
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+      - run: npm run check:unit
+
+  browsers:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npx playwright test --project=${{ matrix.browser }}
+      - name: Screenshots for the slop review
+        if: always() && matrix.browser == 'chromium'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: screens
+          path: screens/
+          if-no-files-found: ignore
+
+  # One stable name for branch protection, whatever the matrix looks like.
+  e2e:
+    if: always()
+    needs: browsers
+    runs-on: ubuntu-latest
+    steps:
+      - run: test "${{ needs.browsers.result }}" = success
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [static, unit, e2e]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site/
+          include-hidden-files: true
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+  smoke:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: The live page answers and carries the CSP
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if curl -fsS "$LIVE_URL" -o page.html && grep -q "connect-src 'none'" page.html; then break; fi
+            sleep 10
+          done
+          grep -q "connect-src 'none'" page.html
+          grep -q '<title>Lock your shit.</title>' page.html
+      - name: The fonts and security.txt are there
+        run: |
+          curl -fsS -o /dev/null "${LIVE_URL}fonts/archivo.woff2"
+          curl -fsS "${LIVE_URL}.well-known/security.txt" | grep -q '^Contact:'
