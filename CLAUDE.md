@@ -2,11 +2,13 @@
 
 A prank site for people who walk away from their laptop without locking it. A colleague finds the open laptop, opens lockyourshit.com, arms it, and walks off. When the owner comes back, their laptop has a few words to say about being abandoned.
 
-Owner: René Nijkamp. Domain: `lockyourshit.com` (decided 15 Nov 2026, about €10/yr; check whether it is registered yet before wiring DNS). Repo: `github.com/nijkampr/lockyourshit.com`.
+Owner: René Nijkamp. Domain: `lockyourshit.com` (registered 16 Nov 2026; DNS not pointed at GitHub Pages yet). Repo: `github.com/nijkampr/lockyourshit.com`.
 
 ## Status
 
-Nothing is built yet. The first session's job is the **plan**, not the code: read this file, look at the references below, then write the plan into `docs/` and walk René through it before building anything.
+The plan is done (16 Nov 2026) and lives in `docs/`. Nothing is built yet. **`docs/` is the source of truth and overrides the starting idea below** where they differ (the map and the CAPTCHA are out of v1, one stored number is in). Start at `docs/BRIEF.md` and follow its reading order. Build in the order of `docs/BACKLOG.md`.
+
+`docs/ANTI-SLOP.md` is a hard gate on design, copy, code and docs. René hates AI slop. Read it before producing anything.
 
 ## The ambition
 
@@ -52,7 +54,8 @@ Outward text in René's voice: direct, dry, a bit unhinged, no corporate mush, *
 
 ## How to work here
 
-- Plan first. Put it in `docs/` (a brief, ADRs for the real decisions, a backlog). Show René before building.
+- The plan is in `docs/`. If the build shows a doc is wrong, fix the doc in the same change. A new real decision gets a new ADR.
+- Everything that ships lives in `site/`. `npm run check` must be green before anything is called done.
 - Never commit, push or deploy unless René asks.
 - Searches, lookups and scraping go to the `scout` subagent (Haiku). The browser is blocked; for walled pages use the `web-fetching-resilience` skill. Never pull whole pages into context.
 - Commits end with the attribution lines the session gives you.
