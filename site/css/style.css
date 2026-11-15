@@ -1,0 +1,849 @@
+/* lockyourshit.com. Two voices on two colours: the laptop in mono on black,
+   the union in poster type on pink. Spec: docs/design/DESIGN-DIRECTION.md.
+   Rules: docs/ANTI-SLOP.md. Five colours, no transitions, every change is a cut. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo.woff2") format("woff2");
+  font-weight: 900;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: block;
+}
+
+:root {
+  --void: #000000;
+  --ink: #0B0B0C;
+  --paper: #F4F1EA;
+  --dim: #8C8C8C;
+  --loud: #FF2D8A;
+
+  --union: "Archivo", "Arial Narrow", Impact, sans-serif;
+  --laptop: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --gutter: max(1.25rem, 3vw);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--loud);
+  color: var(--ink);
+  font: 400 1rem/1.5 var(--laptop);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+h1,
+h2,
+p,
+dl,
+dd,
+ol,
+pre {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 4px;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--loud);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+kbd {
+  font: inherit;
+}
+
+/* The picket: landing page, notice, 404 */
+
+.poster {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.topbar,
+.strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0.85rem var(--gutter);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.topbar {
+  border-bottom: 2px solid var(--ink);
+}
+
+.strip {
+  border-top: 2px solid var(--ink);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.headline {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5vh var(--gutter) 2.5vh;
+  border-right: 2px solid var(--ink);
+  font: 900 min(34vh, 23vw)/0.8 var(--union);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.pitch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.75rem;
+  padding: 2.5rem var(--gutter) 2.5vh;
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+}
+
+.pitch-lede {
+  max-width: 34ch;
+}
+
+.big-button {
+  display: block;
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.6rem 1rem;
+  border: 3px solid var(--ink);
+  background: var(--ink);
+  color: var(--loud);
+  font: 900 clamp(1.9rem, 2.9vw, 2.75rem)/1 var(--union);
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.big-button:hover,
+.big-button:focus-visible {
+  background: var(--loud);
+  color: var(--ink);
+}
+
+.big-button:active {
+  transform: translateY(2px);
+}
+
+.controls {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.text-link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.text-link:hover {
+  text-decoration-thickness: 4px;
+}
+
+.phone-only {
+  display: none;
+  font-weight: 700;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: 1ch;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--ink);
+}
+
+.steps li:last-child {
+  border-bottom: 1px solid var(--ink);
+}
+
+.steps span {
+  font-weight: 700;
+}
+
+.voice-switch {
+  align-self: flex-start;
+}
+
+.voice-switch span {
+  padding: 0 0.3ch;
+}
+
+.voice-switch[aria-pressed="true"] .voice-on,
+.voice-switch[aria-pressed="false"] .voice-off {
+  background: var(--ink);
+  color: var(--loud);
+}
+
+.strip a {
+  text-decoration: none;
+}
+
+.strip a:hover {
+  text-decoration: underline;
+}
+
+/* The fine print: the laptop talking to the security team */
+
+.fineprint {
+  background: var(--void);
+  color: var(--paper);
+  padding: clamp(3rem, 9vh, 6rem) var(--gutter);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.fineprint ::selection {
+  background: var(--loud);
+  color: var(--void);
+}
+
+.fineprint :focus-visible {
+  outline-color: var(--paper);
+}
+
+.fineprint h2 {
+  max-width: 72ch;
+  margin-bottom: 2rem;
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.fineprint dl {
+  display: grid;
+  grid-template-columns: 18ch minmax(0, 54ch);
+  gap: 0.5rem 2ch;
+  margin-bottom: 2rem;
+}
+
+.fineprint dt {
+  color: var(--dim);
+}
+
+/* The stage: everything the prank shows. Fullscreen when the browser allows it,
+   a fixed layer over the tab when it doesn't. */
+
+.stage {
+  display: none;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--void);
+  color: var(--paper);
+}
+
+.stage ::selection {
+  background: var(--loud);
+  color: var(--void);
+}
+
+.stage :focus-visible {
+  outline-color: var(--paper);
+}
+
+html:not([data-state="landing"]) .stage {
+  display: block;
+}
+
+html:not([data-state="landing"]) .poster,
+html:not([data-state="landing"]) .fineprint {
+  display: none;
+}
+
+html:not([data-state="landing"]) {
+  background: var(--void);
+}
+
+.arming,
+.void,
+.notice {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+[data-state="arming"] .arming,
+[data-state="awake"] .void,
+[data-state="released"] .void,
+[data-state="exited"] .void {
+  display: block;
+}
+
+[data-state="notice"] .notice {
+  display: grid;
+}
+
+[data-state="arming"] .stage,
+[data-state="armed"] .stage,
+[data-state="armed"] .stage * {
+  cursor: none;
+}
+
+/* Arming */
+
+.arming-lines {
+  position: absolute;
+  top: 10vh;
+  left: 8vw;
+  font-size: clamp(1.125rem, 2.1vw, 1.875rem);
+}
+
+.countdown {
+  position: absolute;
+  left: 8vw;
+  bottom: 4vh;
+  color: var(--loud);
+  font: 900 40vh/0.8 var(--union);
+}
+
+/* The void */
+
+.lines {
+  position: absolute;
+  top: 10vh;
+  bottom: 16vh;
+  left: 8vw;
+  right: var(--gutter);
+  max-width: 62ch;
+  overflow: hidden;
+  font-size: clamp(1.125rem, 2.1vw, 1.875rem);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.15em;
+  margin-left: 0.05em;
+  vertical-align: -0.2em;
+  background: var(--loud);
+}
+
+.cursor[data-mood="blink"] {
+  animation: blink 1060ms steps(1, end) infinite;
+}
+
+.cursor[data-mood="stutter"] {
+  animation: blink 160ms steps(1, end) 3;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.hints {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hint {
+  color: var(--dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.hint:hover {
+  color: var(--paper);
+}
+
+#skip-hint,
+[data-state="exited"] .hints {
+  display: none;
+}
+
+[data-state="awake"] #skip-hint {
+  display: block;
+}
+
+.preview-label {
+  display: none;
+  position: absolute;
+  top: 1.25rem;
+  right: var(--gutter);
+  color: var(--dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+[data-preview] .preview-label {
+  display: block;
+}
+
+[data-state="released"] .lines,
+[data-state="exited"] .lines {
+  bottom: 50vh;
+}
+
+.release-end,
+.exit-end {
+  display: none;
+  position: absolute;
+  left: 8vw;
+  right: var(--gutter);
+  bottom: 8vh;
+}
+
+[data-state="released"][data-ready] .release-end,
+[data-state="exited"][data-ready] .exit-end {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: start;
+}
+
+.release-url {
+  color: var(--loud);
+  font: 900 min(16vh, 9vw)/0.85 var(--union);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.big-button-loud {
+  width: auto;
+  min-width: min(100%, 28rem);
+  border-color: var(--loud);
+  background: var(--loud);
+  color: var(--ink);
+}
+
+.big-button-loud:hover,
+.big-button-loud:focus-visible {
+  background: var(--void);
+  color: var(--loud);
+}
+
+.release-note {
+  max-width: 52ch;
+  color: var(--dim);
+  font-size: 0.875rem;
+}
+
+/* The notice */
+
+.notice {
+  grid-template-rows: auto 1fr auto;
+  background: var(--loud);
+  color: var(--ink);
+}
+
+.notice ::selection {
+  background: var(--ink);
+  color: var(--loud);
+}
+
+.notice :focus-visible {
+  outline-color: var(--ink);
+}
+
+.notice-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6vw;
+  padding: 3vh 6vw;
+  min-height: 0;
+}
+
+.receipt {
+  position: relative;
+  width: max-content;
+  padding: 1.5rem 1.6rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: clamp(0.8rem, 1.05vw, 1rem);
+  line-height: 1.45;
+  transform: rotate(-2deg);
+}
+
+.receipt::before,
+.receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: url("../img/tear.svg") repeat-x;
+}
+
+.receipt::before {
+  top: -7px;
+}
+
+.receipt::after {
+  bottom: -7px;
+  transform: scaleY(-1);
+}
+
+.receipt pre {
+  font: inherit;
+  white-space: pre-wrap;
+  width: 33ch;
+}
+
+.receipt-label {
+  margin-top: 1.45em;
+}
+
+.receipt-clock {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.4em;
+}
+
+.receipt-body {
+  font-variant-numeric: tabular-nums;
+}
+
+.demand {
+  display: grid;
+  gap: 3.5vh;
+  justify-items: start;
+}
+
+.demand-title {
+  font: 900 min(13vh, 8vw)/0.85 var(--union);
+  text-transform: uppercase;
+}
+
+.demand-now {
+  font: 900 min(4.6vh, 2.8vw)/1 var(--union);
+  text-transform: uppercase;
+}
+
+.keys {
+  display: grid;
+  gap: 1rem;
+}
+
+.key-row {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(0.6rem, 1.2vw, 1.25rem);
+}
+
+.key {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  min-width: clamp(5rem, 11vw, 9.5rem);
+  height: clamp(5rem, 11vw, 9.5rem);
+  padding: 0 0.8em;
+  border: 4px solid var(--ink);
+  border-bottom-width: 10px;
+  border-radius: 2px;
+  font: 900 clamp(2.25rem, 5vw, 4.25rem)/1 var(--union);
+  text-transform: uppercase;
+}
+
+.key-glyph {
+  font-family: var(--laptop);
+  font-weight: 700;
+}
+
+.key-glyph:only-child {
+  font-family: var(--union);
+  font-weight: 900;
+}
+
+.key-name {
+  margin-top: 0.35rem;
+  font: 400 0.7rem/1 var(--laptop);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.key-label {
+  width: 9ch;
+  padding-bottom: 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.keys:has(.key-label) .key {
+  min-width: 3.75rem;
+  height: 3.75rem;
+  border-bottom-width: 7px;
+  font-size: 1.4rem;
+}
+
+.demand .key-row:only-child .key:nth-child(1) {
+  animation: press-1 3s steps(1, end) infinite;
+}
+
+.demand .key-row:only-child .key:nth-child(2) {
+  animation: press-2 3s steps(1, end) infinite;
+}
+
+.demand .key-row:only-child .key:nth-child(3) {
+  animation: press-3 3s steps(1, end) infinite;
+}
+
+@keyframes press-1 {
+  20%, 75% { transform: translateY(6px); border-bottom-width: 4px; }
+  0%, 19%, 76%, 100% { transform: none; border-bottom-width: 10px; }
+}
+
+@keyframes press-2 {
+  32%, 75% { transform: translateY(6px); border-bottom-width: 4px; }
+  0%, 31%, 76%, 100% { transform: none; border-bottom-width: 10px; }
+}
+
+@keyframes press-3 {
+  44%, 75% { transform: translateY(6px); border-bottom-width: 4px; }
+  0%, 43%, 76%, 100% { transform: none; border-bottom-width: 10px; }
+}
+
+.nag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 3.5rem;
+  padding: 0 var(--gutter);
+  background: var(--void);
+  color: var(--paper);
+}
+
+.nag-line {
+  min-width: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nag :focus-visible {
+  outline-color: var(--paper);
+}
+
+/* Exit card */
+
+.keys-small .key {
+  min-width: 4rem;
+  height: 4rem;
+  border-color: var(--paper);
+  border-width: 3px 3px 7px;
+  color: var(--paper);
+  font-size: 1.5rem;
+}
+
+.keys-small .key-name {
+  margin-top: 0.2rem;
+  font-size: 0.6rem;
+}
+
+.keys-small .key-label {
+  color: var(--dim);
+}
+
+/* 404 */
+
+.lost {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2rem;
+  padding: 3vh var(--gutter) 5vh;
+}
+
+.lost h1 {
+  font: 900 min(30vh, 24vw)/0.8 var(--union);
+  text-transform: uppercase;
+}
+
+.lost p {
+  font: 900 min(9vh, 7vw)/0.9 var(--union);
+  text-transform: uppercase;
+}
+
+.lost a {
+  font: 400 1rem var(--laptop);
+}
+
+/* Narrow screens: one column, the page scrolls */
+
+@media (max-width: 899px) {
+  .split,
+  .notice-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .headline {
+    border-right: 0;
+    border-bottom: 2px solid var(--ink);
+    padding-top: 4vh;
+    font-size: 43vw;
+  }
+
+  .pitch {
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .topbar-right {
+    display: none;
+  }
+
+  .strip {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fineprint dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fineprint dd {
+    margin-bottom: 1rem;
+  }
+
+  .notice {
+    grid-template-rows: auto auto auto;
+    overflow-y: auto;
+  }
+
+  .nag-line {
+    white-space: normal;
+  }
+
+  .notice-body {
+    padding: 2rem var(--gutter);
+  }
+
+  .demand {
+    order: -1;
+  }
+
+  .demand-title {
+    font-size: 17vw;
+  }
+
+  .demand-now {
+    font-size: 7vw;
+  }
+
+  .receipt {
+    transform: none;
+    max-width: 100%;
+  }
+
+  .receipt pre {
+    width: auto;
+    max-width: 33ch;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 899px) {
+  #arm {
+    display: none;
+  }
+
+  .phone-only {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor[data-mood],
+  .demand .key-row:only-child .key:nth-child(n) {
+    animation: none;
+  }
+}
+
+/* Somebody will tape this to a monitor. */
+
+@media print {
+  [data-state="notice"],
+  [data-state="notice"] .notice,
+  [data-state="notice"] .notice-body {
+    display: block;
+    background: none;
+    padding: 0;
+  }
+
+  [data-state="notice"] .stage {
+    position: static;
+    background: none;
+  }
+
+  [data-state="notice"] .notice {
+    position: static;
+  }
+
+  [data-state="notice"] .topbar,
+  [data-state="notice"] .demand,
+  [data-state="notice"] .nag,
+  [data-state="notice"] .receipt::before,
+  [data-state="notice"] .receipt::after {
+    display: none;
+  }
+
+  [data-state="notice"] .receipt {
+    transform: none;
+    background: none;
+    padding: 0;
+    font-size: 11pt;
+  }
+}

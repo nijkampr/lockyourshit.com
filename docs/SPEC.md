@@ -10,6 +10,7 @@ site/                         everything that ships, exactly as it ships
   404.html
   css/style.css
   js/main.js                  boot, state machine, the single exit handler
+  js/run.js                   every timer, listener and wait a run starts, so one call stops all of it
   js/arm.js                   the arm click, countdown, trigger detection
   js/stage.js                 the typing engine for the void
   js/voice.js                 speech: pick a voice, say a line, shut up
@@ -36,6 +37,17 @@ docs/
 .github/dependabot.yml
 package.json                  dev tooling only. nothing in site/ depends on it.
 ```
+
+**Fonts** are made once on a dev machine from the upstream variable fonts in google/fonts (licences in `fonts-src/`) with fontTools:
+
+```
+fonttools varLib.instancer "Archivo[wdth,wght].ttf" wght=900 wdth=62 -o archivo-900-62.ttf
+fonttools varLib.instancer "JetBrainsMono[wght].ttf" wght=400:700 -o jbm-400-700.ttf
+pyftsubset <each> --unicodes="U+0020-007E,U+00A0-00FF,U+2018-201F,U+2026,U+2022,U+00B7,U+2190-2193,U+2303,U+2318" \
+  --flavor=woff2 --name-IDs='*' --layout-features='kern,liga'
+```
+
+JetBrains Mono carries `⌃` and `⌘`, so the Mac keycaps use it instead of the system font.
 
 All URLs inside `site/` are **relative** (`./css/style.css`), so the site works at `nijkampr.github.io/lockyourshit.com/` before the domain exists. The exception is `404.html`, which is served from any path and uses root-relative URLs.
 
@@ -72,6 +84,10 @@ One attribute, `data-state` on `<html>`, decides what is visible. CSS shows the 
 | `exited` | click "back to the front door" | `landing` | |
 
 **The single exit handler.** Leaving for `exited` or `landing` always runs the same function: cancel speech, clear every timer, leave fullscreen if still in it, show the cursor again, then `go(...)`. Every listener and timer the prank starts is registered so this function can remove it. After it runs, nothing is ticking.
+
+**How a run stops** (`run.js`). A run is an `AbortController`. `begin()` starts one, `stop()` aborts it, and every `wait()`, interval and listener a run creates is tied to it. A stopped run stays aborted until the next `begin()`, so a sequence that wakes up after its run stopped hits a rejected `wait()` and ends. Promises `run.js` didn't create (speech) go through `guard()`, which rejects when the run stops. Without that, a cancelled utterance resolves after the next run has begun and the old monologue carries on inside the new one (found on macOS, where headless Chromium has real voices).
+
+**Esc arrives twice in fullscreen:** the browser leaves fullscreen and also delivers the keydown. `leave()` ignores both in `landing` and `exited`, so the exit card isn't thrown away by the second one. Esc on the exit card does nothing. The exit card is already out of fullscreen and has a link back.
 
 ## 3. The arm click
 
@@ -148,6 +164,7 @@ Background: what browsers do here is partly unverified (ADR-0006), so every step
 - **Base settings:** `rate 0.92`, `pitch 1`, `volume 1`. Each personality carries `voice: { rate, pitch }`, which replace the base for its lines.
 - **One utterance per line.** The spoken text is `say` if present, else `text`, with tokens filled in, lowercased, brackets and repeated spaces removed.
 - **End of a line's speech** is the utterance's `end` or `error` event, or a timeout of `characters × 90 + 2000` ms, whichever comes first. Never wait on `boundary` events.
+- **A silent run resolves every line's speech at once.** Voice off, no local voice, or blocked: `say()` returns a resolved promise and the typing sets the pace. This also keeps headless test runs fast.
 - **If the first utterance of `awake` produces no `start` event within 1500 ms,** speech is assumed blocked. Try once more on the victim's next key press or click (that is a real gesture). If that fails as well, stay silent for the run.
 - **Stopping:** `speechSynthesis.cancel()`. When speaking again right after a cancel (the skip to the notice), wait 100 ms first.
 - Everything in this module that touches `speechSynthesis` is inside `try/catch`. A throw means silence.
@@ -191,7 +208,7 @@ Show the email line plus the last four that apply.
 
 ## 8. The notice and the release (`notice.js`)
 
-**Build the receipt** from `goneFor`, the time of arming (weekday, date, time in the laptop's locale order but lowercase English words), the offence count and `couldHave()`. Layout is in the design doc, words in the script.
+**Build the receipt** from `goneFor`, the time of arming (`sun 15 nov 2026` and `14:07`, fixed English and 24-hour, because a receipt doesn't localise), the offence count and `couldHave()`. Layout is in the design doc, words in the script.
 
 **The nags** from `SCRIPT.md` play on the black strip at 4 s, 25 s and 50 s, with voice. Each is typed by the same engine.
 
@@ -282,7 +299,7 @@ René runs it on Chrome, Safari and Firefox on his Mac and on whatever Windows m
 | `landing` | Renders, no console errors, zero CSP violations, keyboard reaches the arm button |
 | `arm` | Click → countdown → black. Input during grace does nothing. Small pointer jitter does nothing. A real move triggers. The duration on the receipt matches the time advanced |
 | `escape` | Esc from every state lands in the right place, speech was cancelled, no timer is left running |
-| `privacy` | From load to the end of a full run: zero network requests after the initial load, no cookies, no sessionStorage, no IndexedDB, and localStorage holds exactly one key |
+| `privacy` | From network idle after load to the end of a full run: zero network requests, no cookies, no sessionStorage, no IndexedDB, and localStorage holds exactly one key |
 | `never` | The never-list APIs (ADR-0005) are wrapped by the test before load and none was called |
 | `preview` | Runs without the wait, shows the label, writes nothing |
 | `personalities` | Each personality plays to the notice |

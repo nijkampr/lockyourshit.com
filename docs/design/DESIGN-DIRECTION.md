@@ -170,7 +170,7 @@ Pink. The top bar from the landing page, then two columns.
 
 - **The receipt:** `--paper`, 34 characters wide in mono 14 to 16px, rotated `-2deg`, with a zigzag torn edge top and bottom made with `clip-path`. No shadow. No border. The duration is mono 700 at `clamp(3rem, 6vw, 5.5rem)`. Rules are rows of spaced hyphens in the text, as in the script.
 - **The demand:** Archivo, `font-size: min(13vh, 8vw)`, two lines.
-- **Keycaps:** squares of `clamp(5rem, 11vw, 9.5rem)`, 4px ink border with a 10px bottom border (that's the only depth cue on the site), 2px radius, pink inside. The glyph is Archivo 900 at about 45% of the key. The Mac glyphs `⌃` and `⌘` aren't in our fonts, so those two use the system font, which every Mac has. Under each glyph, the key's name in mono 11px (`control`, `command`). No vendor logos: the Windows key says `WIN`.
+- **Keycaps:** squares of `clamp(5rem, 11vw, 9.5rem)`, 4px ink border with a 10px bottom border (that's the only depth cue on the site), 2px radius, pink inside. The glyph is Archivo 900 at about 45% of the key. The Mac glyphs `⌃` and `⌘` aren't in Archivo but are in JetBrains Mono, so those two are set in the mono at 700. Under each glyph, the key's name in mono 11px (`control`, `command`). No vendor logos: the Windows key says `WIN`.
 - **The demo:** the keys press down one after another, then all release, every 3 seconds. Pressed means moved down 6px with the bottom border reduced to 4px. Stepped, no easing. With reduced motion the keys stay still.
 - **"PRESS IT. NOW. WE'LL WAIT."** Archivo, about a third of the demand's size.
 - **The strip:** full width, `--void`, 3.5rem tall. The laptop's nags type here in mono with the pink cursor. The esc hint moves into its right end.

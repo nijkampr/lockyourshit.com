@@ -29,14 +29,14 @@ The pipeline goes in first, so every later block is built under the gates.
 
 | ID | Size | Who | Ticket |
 |---|---|---|---|
-| LYS-010 | S | O | **Repo skeleton** as in `SPEC.md` section 1. `package.json` with dev tooling and an `npm run check` that runs everything. `.gitignore`. |
-| LYS-011 | M | A | **Check scripts:** `check-copy`, `check-source`, `check-budgets`, `banned-words.txt`. Each rule from `ANTI-SLOP.md` section 5 and ADR-0005 is one clearly named check with a readable failure message. |
-| LYS-012 | S | S | **Look up current releases and commit SHAs** for the GitHub actions needed (checkout, setup-node, configure-pages, upload-pages-artifact, deploy-pages, upload-artifact) and current versions of Playwright, axe and html-validate. |
-| LYS-013 | M | A | **`ship.yml` and `dependabot.yml`** as in ADR-0007. |
-| LYS-014 | M | O | **Fonts.** Get the upstream variable fonts, confirm Archivo's width axis, subset, commit. Record the exact subsetting command in the file header comment of `style.css` or a short note in `SPEC.md`. |
-| LYS-015 | M | O | **Page shell.** `index.html` with the full head (`SPEC.md` section 11), landing markup and the empty stage sections. `style.css` with the tokens, `@font-face`, base type, focus and selection styles. |
-| LYS-016 | M | O | **State machine.** `main.js`: `go()`, the transitions table, the single exit handler. Placeholder content per state. |
-| LYS-017 | S | A | **First e2e specs:** `landing` and a skeleton `escape`. Wire Playwright for three engines. |
+| LYS-010 | S | O | ✅ **Repo skeleton** as in `SPEC.md` section 1. `package.json` with dev tooling and an `npm run check` that runs everything. `.gitignore`. |
+| LYS-011 | M | A | ✅ **Check scripts:** `check-copy`, `check-source`, `check-budgets`, `banned-words.txt`. Each rule from `ANTI-SLOP.md` section 5 and ADR-0005 is one clearly named check with a readable failure message. |
+| LYS-012 | S | S | ✅ **Look up current releases and commit SHAs** for the GitHub actions needed (checkout, setup-node, configure-pages, upload-pages-artifact, deploy-pages, upload-artifact) and current versions of Playwright, axe and html-validate. |
+| LYS-013 | M | A | ✅ **`ship.yml` and `dependabot.yml`** as in ADR-0007. |
+| LYS-014 | M | O | ✅ **Fonts.** Get the upstream variable fonts, confirm Archivo's width axis, subset, commit. Record the exact subsetting command in the file header comment of `style.css` or a short note in `SPEC.md`. |
+| LYS-015 | M | O | ✅ **Page shell.** `index.html` with the full head (`SPEC.md` section 11), landing markup and the empty stage sections. `style.css` with the tokens, `@font-face`, base type, focus and selection styles. |
+| LYS-016 | M | O | ✅ **State machine.** `main.js`: `go()`, the transitions table, the single exit handler. Placeholder content per state. |
+| LYS-017 | S | A | ✅ **First e2e specs:** `landing` and a skeleton `escape`. Wire Playwright for three engines. |
 
 **Exit:** `npm run check` is green locally. You can click landing → black → pink → release and Esc out of each. The checks fail when you deliberately add an em-dash, a `fetch(`, a gradient and a second storage key (try it, then revert).
 
@@ -44,12 +44,12 @@ The pipeline goes in first, so every later block is built under the gates.
 
 | ID | Size | Who | Ticket |
 |---|---|---|---|
-| LYS-020 | M | O | **The arm click** (`SPEC.md` section 3): fullscreen, speech prime, `armedAt`, tab fallback, frame check, phone rule. |
-| LYS-021 | S | O | **Countdown and grace.** |
-| LYS-022 | M | O | **Trigger detection** with the pointer threshold. |
-| LYS-023 | S | A | **`facts.js`** with unit tests for every function and edge case in `SPEC.md` section 7. |
-| LYS-024 | M | A | **The probe** (`SPEC.md` section 12). Hand it to René with a three-line instruction. Don't wait for the answer. |
-| LYS-025 | S | A | **e2e:** `arm`. |
+| LYS-020 | M | O | ✅ **The arm click** (`SPEC.md` section 3): fullscreen, speech prime, `armedAt`, tab fallback, frame check, phone rule. |
+| LYS-021 | S | O | ✅ **Countdown and grace.** |
+| LYS-022 | M | O | ✅ **Trigger detection** with the pointer threshold. |
+| LYS-023 | S | A | ✅ **`facts.js`** with unit tests for every function and edge case in `SPEC.md` section 7. |
+| LYS-024 | M | A | ✅ **The probe** (`SPEC.md` section 12). Hand it to René with a three-line instruction. Don't wait for the answer. |
+| LYS-025 | S | A | ✅ **e2e:** `arm`. |
 
 **Exit:** arm it, walk away, come back, get a black screen that ignores jitter, reacts to a real move and knows how long you were gone.
 
@@ -57,12 +57,12 @@ The pipeline goes in first, so every later block is built under the gates.
 
 | ID | Size | Who | Ticket |
 |---|---|---|---|
-| LYS-030 | L | O | **Typing engine** (`SPEC.md` section 5): lines, pauses, cursor moods, scrolling, clearing between beats, reduced motion, key-mash counter. |
-| LYS-031 | M | O | **Voice** (`SPEC.md` section 6): local voices only, prime, per-line utterances with timeout, start check and retry, cancel. |
-| LYS-032 | M | O | **The awakening** in `script.js`: duration tiers, repeat-offender openings, the stored count (`SPEC.md` section 9). |
-| LYS-033 | M | A | **Six personalities** as data modules, transcribed exactly from `SCRIPT.md`, with `say` forms, pauses and cursor moods. The coordinator then tunes the timing of each by watching it. |
-| LYS-034 | S | O | **The closer, the skip, the cut to pink.** |
-| LYS-035 | M | A | **e2e and unit:** `personalities`, `repeat`, `reduced-motion`, `preview`, and the personality schema and deny-list test. |
+| LYS-030 | L | O | ✅ **Typing engine** (`SPEC.md` section 5): lines, pauses, cursor moods, scrolling, clearing between beats, reduced motion, key-mash counter. |
+| LYS-031 | M | O | ✅ **Voice** (`SPEC.md` section 6): local voices only, prime, per-line utterances with timeout, start check and retry, cancel. |
+| LYS-032 | M | O | ✅ **The awakening** in `script.js`: duration tiers, repeat-offender openings, the stored count (`SPEC.md` section 9). |
+| LYS-033 | M | A | ✅ **Six personalities** as data modules, transcribed exactly from `SCRIPT.md`, with `say` forms, pauses and cursor moods. The coordinator then tunes the timing of each by watching it. |
+| LYS-034 | S | O | ✅ **The closer, the skip, the cut to pink.** |
+| LYS-035 | M | A | ✅ **e2e and unit:** `personalities`, `repeat`, `reduced-motion`, `preview`, and the personality schema and deny-list test. |
 
 **Exit:** the full void half runs with sound on this Mac. Each personality has been watched start to finish at least once by the coordinator, and the timing feels like someone talking, not like a typewriter demo.
 
@@ -70,12 +70,12 @@ The pipeline goes in first, so every later block is built under the gates.
 
 | ID | Size | Who | Ticket |
 |---|---|---|---|
-| LYS-040 | L | O | **The receipt:** markup, torn edges, rotation, real values, the could-have list. Print stylesheet. |
-| LYS-041 | M | O | **The demand:** OS detection, keycaps per OS, the press demo. |
-| LYS-042 | S | O | **The nag strip.** |
-| LYS-043 | M | O | **Lock detection and release** (`SPEC.md` section 8), including the fullscreen exception and the "did it →" fallback. The liberate button. |
-| LYS-044 | S | O | **Exit card** and tab titles. |
-| LYS-045 | M | A | **e2e:** full `escape`, `privacy`, `never`. |
+| LYS-040 | L | O | ✅ **The receipt:** markup, torn edges, rotation, real values, the could-have list. Print stylesheet. |
+| LYS-041 | M | O | ✅ **The demand:** OS detection, keycaps per OS, the press demo. |
+| LYS-042 | S | O | ✅ **The nag strip.** |
+| LYS-043 | M | O | ✅ **Lock detection and release** (`SPEC.md` section 8), including the fullscreen exception and the "did it →" fallback. The liberate button. |
+| LYS-044 | S | O | ✅ **Exit card** and tab titles. |
+| LYS-045 | M | A | ✅ **e2e:** full `escape`, `privacy`, `never`. |
 
 **Exit:** the prank runs start to finish in all three engines in CI. The privacy and never specs pass. A photo of the notice taken from two metres with a phone is readable.
 
@@ -83,13 +83,13 @@ The pipeline goes in first, so every later block is built under the gates.
 
 | ID | Size | Who | Ticket |
 |---|---|---|---|
-| LYS-050 | L | O | **Landing page for real:** the poster, the split, the button, steps, voice switch, bottom strip. Tuned by screenshot until it passes the squint test. |
-| LYS-051 | M | O | **The fine print** section. |
-| LYS-052 | S | O | **Phone layout** and the no-JS line. |
-| LYS-053 | M | A | **`make-images.mjs`:** share card, favicon PNG, touch icon. Favicon SVG by hand. |
-| LYS-054 | S | A | **404, robots, humans, security.txt, CNAME,** the console message, the HTML comment. |
-| LYS-055 | S | A | **e2e:** `a11y`, `screens`. |
-| LYS-056 | M | O | **README** for the repo, written for a security engineer: what it does, what it can't do, how to verify, how to run it locally. In René's voice. Short. |
+| LYS-050 | L | O | ✅ **Landing page for real:** the poster, the split, the button, steps, voice switch, bottom strip. Tuned by screenshot until it passes the squint test. |
+| LYS-051 | M | O | ✅ **The fine print** section. |
+| LYS-052 | S | O | ✅ **Phone layout** and the no-JS line. |
+| LYS-053 | M | A | ✅ **`make-images.mjs`:** share card, favicon PNG, touch icon. Favicon SVG by hand. |
+| LYS-054 | S | A | ✅ **404, robots, humans, security.txt, CNAME,** the console message, the HTML comment. |
+| LYS-055 | S | A | ✅ **e2e:** `a11y`, `screens`. |
+| LYS-056 | M | O | ✅ **README** for the repo, written for a security engineer: what it does, what it can't do, how to verify, how to run it locally. In René's voice. Short. |
 
 **Exit:** a stranger gets the idea from the landing page in five seconds (ask one, or ask a subagent that has read nothing but a screenshot to say what the site is for).
 

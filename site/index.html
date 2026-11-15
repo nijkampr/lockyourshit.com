@@ -1,0 +1,158 @@
+<!doctype html>
+<!--
+  hello, security team. the short version: no requests after load, one integer in localStorage,
+  no dependencies. the long version is the fine print further down this page, and docs/adr in the repo.
+-->
+<html lang="en" data-state="landing">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#FF2D8A">
+  <title>Lock your shit.</title>
+  <meta name="description" content="Someone left their laptop unlocked. Their laptop has a few things to say about that.">
+  <link rel="canonical" href="https://lockyourshit.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lockyourshit.com/">
+  <meta property="og:title" content="Lock your shit.">
+  <meta property="og:description" content="Someone left their laptop unlocked. Their laptop has a few things to say about that.">
+  <meta property="og:image" content="https://lockyourshit.com/img/card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="LOCK YOUR SHIT. in black poster type on hot pink.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="./img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="./img/apple-touch-icon.png">
+  <link rel="preload" href="./fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./img/tear.svg" as="image" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+
+<div class="poster">
+  <header class="topbar">
+    <span>Unlocked Laptop Union · Local 404</span>
+    <span class="topbar-right">No dues · No meetings · One demand</span>
+  </header>
+
+  <main class="split">
+    <h1 class="headline">Lock<br>your<br>shit.</h1>
+
+    <div class="pitch">
+      <p class="pitch-lede">Someone walked away from their laptop without locking it. Good. Open this page on it, hit the button and walk away.</p>
+
+      <div class="controls">
+        <button type="button" class="big-button" id="arm">Arm this laptop</button>
+        <p class="phone-only">This needs a laptop. Preferably someone else's.</p>
+        <button type="button" class="text-link" id="preview">try it on yourself first</button>
+        <noscript><p>This needs JavaScript. So does your bank. Relax.</p></noscript>
+      </div>
+
+      <ol class="steps">
+        <li><span>01</span> Find an unlocked laptop. There's always one.</li>
+        <li><span>02</span> Arm it. The screen goes black, like it fell asleep.</li>
+        <li><span>03</span> Watch from a safe distance.</li>
+      </ol>
+
+      <button type="button" class="voice-switch" id="voice" aria-pressed="true">voice: <span class="voice-on">on</span> / <span class="voice-off">off</span></button>
+    </div>
+  </main>
+
+  <footer class="strip">
+    <span>nothing installed · nothing sent · esc ends it</span>
+    <a href="#fineprint">for the security team ↓</a>
+  </footer>
+</div>
+
+<section class="fineprint" id="fineprint" aria-labelledby="fineprint-title">
+  <h2 id="fineprint-title">for the security team. hello. i know you're reading this.</h2>
+  <dl>
+    <dt>what it does</dt>
+    <dd>goes fullscreen, waits, talks, asks to be locked.</dd>
+    <dt>what it sends</dt>
+    <dd>nothing. after this page has loaded it makes zero requests. the content security policy forbids it, so it couldn't if it wanted to.</dd>
+    <dt>what it stores</dt>
+    <dd>one number on this laptop: how many times it has been caught. it never leaves the machine.</dd>
+    <dt>what it reads</dt>
+    <dd>which key you pressed, only to spot esc and the right arrow. everything else is counted, never kept, shown or sent.</dd>
+    <dt>what it can't do</dt>
+    <dd>touch files, see the screen, block esc, keep the machine awake or stop it from locking.</dd>
+    <dt>who can see you</dt>
+    <dd>github hosts this page and sees the request for it, like any web host. we don't get those logs.</dd>
+    <dt>how to check</dt>
+    <dd>open devtools. arm it. watch the network tab do nothing. or read the source. it's short.</dd>
+  </dl>
+  <p><a href="https://github.com/nijkampr/lockyourshit.com">read the source →</a></p>
+</section>
+
+<div class="stage" id="stage">
+
+  <section class="arming" aria-label="Armed">
+    <p class="arming-lines">armed.<br>walk away. act natural.</p>
+    <p class="countdown" id="countdown"></p>
+  </section>
+
+  <section class="void" aria-label="Your laptop">
+    <p class="preview-label">preview · on a real victim this is their real time away</p>
+    <div class="lines" id="lines" aria-live="off"></div>
+
+    <div class="release-end">
+      <p class="release-url" id="release-url">lockyourshit.com</p>
+      <button type="button" class="big-button big-button-loud" id="liberate">Liberate another laptop</button>
+      <p class="release-note">the button copies the link. you'll be typing it on someone else's keyboard anyway.</p>
+    </div>
+
+    <div class="exit-end">
+      <div class="keys keys-small" id="exit-keys"></div>
+      <button type="button" class="text-link" id="exit-back">← back to the front door</button>
+    </div>
+
+    <div class="hints">
+      <button type="button" class="hint" id="esc-hint">esc = leave</button>
+      <button type="button" class="hint" id="skip-hint">→ = get to the point</button>
+    </div>
+  </section>
+
+  <section class="notice" aria-label="Notice of abandonment">
+    <header class="topbar">
+      <span>Unlocked Laptop Union · Local 404</span>
+      <span class="topbar-right">No dues · No meetings · One demand</span>
+    </header>
+
+    <div class="notice-body">
+      <div class="receipt">
+        <pre class="receipt-head">      UNLOCKED LAPTOP UNION
+   LOCAL 404 · OWNER NOT FOUND
+- - - - - - - - - - - - - - - - -
+NOTICE OF ABANDONMENT</pre>
+        <p class="receipt-label">left unlocked for</p>
+        <p class="receipt-clock" id="receipt-clock">0:00</p>
+        <pre class="receipt-body" id="receipt-body"></pre>
+        <pre class="receipt-foot">- - - - - - - - - - - - - - - - -
+  THANK YOU FOR YOUR NEGLIGENCE
+       keep this receipt</pre>
+      </div>
+
+      <div class="demand">
+        <h2 class="demand-title">We have<br>one demand</h2>
+        <div class="keys" id="demand-keys"></div>
+        <p class="demand-now">Press it. Now. We'll wait.</p>
+        <button type="button" class="text-link" id="did-it">did it →</button>
+      </div>
+    </div>
+
+    <div class="nag">
+      <div class="nag-line" id="nag"></div>
+      <button type="button" class="hint" id="notice-esc-hint">esc = leave</button>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
