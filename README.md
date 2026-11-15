@@ -6,11 +6,11 @@ Someone left their laptop unlocked. You open lockyourshit.com on it, click **Arm
 
 You're the one who decides whether this spreads in your company, so here's what it does and how to check it.
 
-**What it sends: nothing.** After the page has loaded, it makes zero network requests. A Content Security Policy with `connect-src 'none'` makes that a browser rule, not a promise.
+**What it sends: nothing.** After the page has loaded, it makes zero network requests. A Content Security Policy with `connect-src 'none'` makes that a rule the browser enforces.
 
 **What it stores: one number.** `localStorage["lys.caught"]` counts how many times this browser has been caught, so the laptop can say "oh. it's you again." It never leaves the machine. There are no cookies, no analytics and no third parties.
 
-**What it reads: nothing.** There's one `keydown` listener (`site/js/main.js`). It recognises Escape and the right arrow and otherwise only counts. What was typed is never looked at, kept, shown or sent.
+**What it reads: which key, only to spot two.** There's one `keydown` listener (`site/js/main.js`). It recognises Escape and the right arrow and otherwise only counts presses. What was typed is never kept, shown or sent.
 
 **What it can't do:** touch files, see the screen, block Esc, keep the machine awake or stop it from locking. It never calls Keyboard Lock, Pointer Lock, Wake Lock or any permission prompt. The full never list is in [ADR-0005](docs/adr/0005-nothing-leaves-nothing-stays.md).
 

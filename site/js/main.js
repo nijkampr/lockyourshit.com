@@ -55,10 +55,12 @@ function leaveFullscreen() {
 function halt() {
   run.stop();
   voice.hush();
+  stage.expectMashing(null);
 }
 
+// Called inside the click, after go() has made the stage visible.
 function startRun({ preview }) {
-  enterFullscreen($('stage'));
+  enterFullscreen($('stage'), () => state !== 'landing' && state !== 'exited');
   voice.prime();
   run.begin();
   if (preview) root.dataset.preview = '';
@@ -67,9 +69,9 @@ function startRun({ preview }) {
 
 function arm() {
   if (framed() || onPhone()) return;
+  go('arming');
   startRun({ preview: false });
   armedAt = Date.now();
-  go('arming');
   sequence(async () => {
     await countdown($('countdown'));
     go('armed');
@@ -80,6 +82,7 @@ function arm() {
 
 function preview() {
   if (framed()) return;
+  go('awake');
   startRun({ preview: true });
   armedAt = Date.now() - PREVIEW_GONE_FOR;
   sequence(() => show({ goneFor: PREVIEW_GONE_FOR, count: 1 }));
@@ -113,6 +116,7 @@ async function show({ goneFor, count }) {
 function skip() {
   run.begin();
   voice.hush();
+  stage.expectMashing(null);
   toNotice();
 }
 
@@ -159,7 +163,7 @@ function backToLanding() {
   go('landing');
   delete root.dataset.preview;
   leaveFullscreen();
-  $('arm')?.focus();
+  $('arm').focus();
 }
 
 // Esc, the esc hint, or losing fullscreen. Always gets you out of whatever this is.
@@ -177,10 +181,10 @@ async function liberate() {
     await navigator.clipboard.writeText('https://lockyourshit.com');
     button.textContent = 'Copied. Go.';
     await run.wait(2000);
-    button.textContent = 'Liberate another laptop';
   } catch (error) {
-    if (run.wasStopped(error)) return;
-    getSelection().selectAllChildren($('release-url'));
+    if (!run.wasStopped(error)) getSelection().selectAllChildren($('release-url'));
+  } finally {
+    button.textContent = 'Liberate another laptop';
   }
 }
 

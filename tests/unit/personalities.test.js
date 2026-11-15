@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { couldHave } from '../../site/js/facts.js';
 import personalities from '../../site/js/personalities/index.js';
 import * as shared from '../../site/js/script.js';
 
@@ -19,6 +20,8 @@ const allLines = [
   ...shared.exit.map((line) => ['exit', line]),
   ...shared.nags.map(({ line }) => ['nag', line]),
   ['mashing', shared.mashing],
+  ...couldHave(30 * 3_600_000).map((text) => ['receipt', { text }]),
+  ...couldHave(30_000).map((text) => ['receipt', { text }]),
 ];
 
 test('every personality is well formed', () => {

@@ -46,6 +46,8 @@ const neverList = [
   ['insertAdjacentHTML', /\binsertAdjacentHTML\b/],
   ['document.write', /\bdocument\.write/],
   ['setAttribute style', /setAttribute\(\s*['"]style['"]/],
+  ['history.pushState', /\bpushState\b/],
+  ['history.replaceState', /\breplaceState\b/],
 ];
 
 const forbiddenCss = [
@@ -185,6 +187,7 @@ for (const { name, ext, text } of files) {
 
 const scriptFiles = files.filter(({ name, ext }) => name.startsWith('site/js/') && ext === '.js');
 let keydownListeners = 0;
+let consoleMessages = 0;
 
 for (const { name, text } of scriptFiles) {
   const code = stripJsComments(text);
@@ -203,6 +206,26 @@ for (const { name, text } of scriptFiles) {
   }
 
   forEachMatch(code, /\bconsole\.(?:log|debug|warn|error)\b/, (m, line) => report(name, line, 'no-console-log', m[0]));
+
+  forEachMatch(code, /\bconsole\.info\b/, (m, line) => {
+    consoleMessages++;
+    if (consoleMessages > 1) report(name, line, 'one-console-message', 'the hello in main.js is the only one');
+  });
+
+  // The one stored number goes through STORAGE_KEY, and nothing else touches storage.
+  forEachMatch(code, /\blocalStorage\.(\w+)\(\s*([^,)]*)/, (m, line) => {
+    if (!['getItem', 'setItem'].includes(m[1]) || m[2].trim() !== 'STORAGE_KEY') {
+      report(name, line, 'one-storage-key', `localStorage.${m[1]}(${m[2]})`);
+    }
+  });
+  forEachMatch(code, /\bconst STORAGE_KEY\s*=\s*(['"])([^'"]*)\1/, (m, line) => {
+    if (m[2] !== 'lys.caught') report(name, line, 'one-storage-key', `STORAGE_KEY is ${m[2]}`);
+  });
+
+  // Keys are counted, never read: event.key may only be compared with Escape or ArrowRight.
+  forEachMatch(code, /\.(?:key|code|keyCode|which|charCode)\b(?!\s*===\s*'(?:Escape|ArrowRight)')/, (m, line) => {
+    report(name, line, 'keys-never-read', `${m[0]} used for something other than spotting Escape or ArrowRight`);
+  });
 
   forEachMatch(code, /['"]keydown['"]/, (m, line) => {
     keydownListeners++;

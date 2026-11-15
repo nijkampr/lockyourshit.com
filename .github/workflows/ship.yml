@@ -96,12 +96,12 @@ jobs:
       - name: The live page answers and carries the CSP
         run: |
           for attempt in 1 2 3 4 5 6; do
-            if curl -fsS "$LIVE_URL" -o page.html && grep -q "connect-src 'none'" page.html; then break; fi
+            if curl -fsSL "$LIVE_URL" -o page.html && grep -q "connect-src 'none'" page.html; then break; fi
             sleep 10
           done
           grep -q "connect-src 'none'" page.html
           grep -q '<title>Lock your shit.</title>' page.html
       - name: The fonts and security.txt are there
         run: |
-          curl -fsS -o /dev/null "${LIVE_URL}fonts/archivo.woff2"
-          curl -fsS "${LIVE_URL}.well-known/security.txt" | grep -q '^Contact:'
+          curl -fsSL -o /dev/null "${LIVE_URL}fonts/archivo.woff2"
+          curl -fsSL "${LIVE_URL}.well-known/security.txt" | grep -q '^Contact:'

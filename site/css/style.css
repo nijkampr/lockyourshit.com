@@ -408,8 +408,7 @@ html:not([data-state="landing"]) {
 }
 
 #skip-hint,
-[data-state="exited"] .hints,
-[data-state="released"] .hints {
+[data-state="exited"] .hints {
   display: none;
 }
 

@@ -9,11 +9,16 @@ const TRAVEL = 30;
 const TRAVEL_WINDOW = 500;
 
 // A refusal or a browser without the API is fine: the prank runs in the tab.
-export function enterFullscreen(element) {
+// The request settles later, so if the visitor already left, hand fullscreen back.
+export function enterFullscreen(element, stillWanted) {
   try {
-    element.requestFullscreen?.()?.catch(() => {});
+    element.requestFullscreen?.()
+      ?.then(() => {
+        if (!stillWanted()) document.exitFullscreen().catch(() => {});
+      })
+      .catch(() => {});
   } catch {
-    // runs in the tab
+    // an old API that throws instead of rejecting: same as a refusal
   }
 }
 

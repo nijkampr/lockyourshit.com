@@ -23,11 +23,15 @@ export function wait(ms) {
   const { signal } = controller;
   return new Promise((resolve, reject) => {
     if (signal.aborted) return reject(signal.reason);
-    const id = setTimeout(resolve, ms);
-    signal.addEventListener('abort', () => {
+    const abort = () => {
       clearTimeout(id);
       reject(signal.reason);
-    }, { once: true });
+    };
+    const id = setTimeout(() => {
+      signal.removeEventListener('abort', abort);
+      resolve();
+    }, ms);
+    signal.addEventListener('abort', abort, { once: true });
   });
 }
 
@@ -38,8 +42,9 @@ export function guard(promise) {
   const { signal } = controller;
   return new Promise((resolve, reject) => {
     if (signal.aborted) return reject(signal.reason);
-    signal.addEventListener('abort', () => reject(signal.reason), { once: true });
-    promise.then(resolve, reject);
+    const abort = () => reject(signal.reason);
+    signal.addEventListener('abort', abort, { once: true });
+    promise.finally(() => signal.removeEventListener('abort', abort)).then(resolve, reject);
   });
 }
 

@@ -70,8 +70,9 @@ what it sends     nothing. after this page has loaded it makes zero
                   so it couldn't if it wanted to.
 what it stores    one number on this laptop: how many times it has
                   been caught. it never leaves the machine.
-what it reads     nothing. keys are counted, never read. the only keys
-                  it looks at are esc and the right arrow.
+what it reads     which key you pressed, only to spot esc and the
+                  right arrow. everything else is counted, never
+                  kept, shown or sent.
 what it can't do  touch files, see the screen, block esc, keep the
                   machine awake or stop it from locking.
 who can see you   github hosts this page and sees the request for it,
@@ -343,7 +344,7 @@ Then, in pink poster type on black:
 
 Small mono under it:
 
-> the button copies the link. the name is short on purpose: you'll be typing it on someone else's keyboard.
+> the button copies the link. you'll be typing it on someone else's keyboard anyway.
 
 After a click the button reads `COPIED. GO.` for two seconds.
 

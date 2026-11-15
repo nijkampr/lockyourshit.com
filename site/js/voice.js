@@ -5,7 +5,7 @@
 
 const PREFERRED = ['Samantha', 'Daniel', 'Alex', 'Microsoft Zira', 'Microsoft David', 'Microsoft Mark'];
 const BASE = { rate: 0.92, pitch: 1 };
-const START_CHECK = 1500;
+const START_CHECK = 3000;
 
 const synth = globalThis.speechSynthesis;
 let voice = null;
@@ -14,6 +14,7 @@ let verified = false;   // a line has actually started playing this run
 let blocked = false;    // the browser wouldn't let us speak; silent until a retry
 let retriesLeft = 1;
 let lastCancel = 0;
+let hushes = 0;         // a line queued before the latest hush() must not start after it
 
 function pickVoice() {
   try {
@@ -68,11 +69,12 @@ export function gesture() {
 }
 
 export function hush() {
+  hushes += 1;
   lastCancel = Date.now();
   try {
     synth?.cancel();
   } catch {
-    // nothing to stop
+    // a browser that can't cancel had nothing playing
   }
 }
 
@@ -84,6 +86,7 @@ export function say(text, settings = {}) {
   const words = spokenForm(text);
   if (!enabled || blocked || !voice || !synth || !words) return Promise.resolve();
 
+  const generation = hushes;
   return new Promise((resolve) => {
     let started = false;
     const timers = [];
@@ -92,6 +95,7 @@ export function say(text, settings = {}) {
       resolve();
     };
     const speak = () => {
+      if (generation !== hushes) return finish();
       const line = new SpeechSynthesisUtterance(words);
       line.voice = voice;
       line.lang = voice.lang;
@@ -106,7 +110,7 @@ export function say(text, settings = {}) {
       timers.push(setTimeout(finish, words.length * 90 + 2000));
       if (!verified) {
         timers.push(setTimeout(() => {
-          if (started) return;
+          if (started || generation !== hushes) return;
           blocked = true;
           hush();
           finish();

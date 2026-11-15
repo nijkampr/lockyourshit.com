@@ -22,6 +22,7 @@ let queued = null;
 let presses = 0;
 
 // Six key presses during the monologue earn one remark, said after the current line.
+// expectMashing(null) forgets it, so it can't turn up on the notice or the exit card.
 export function expectMashing(line) {
   mashLine = line;
   queued = null;
@@ -72,6 +73,7 @@ async function playLine(area, line, { facts, voice, cps, quiet }) {
     area.append(paragraph);
 
     const speech = guard(quiet ? Promise.resolve() : say(fill(line.say ?? line.text, facts), voice));
+    speech.catch(() => {}); // a stop rejects this too; the wait in the typing loop reports it
     setMood('solid');
     if (reducedMotion.matches) {
       typed.data = text;

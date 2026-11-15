@@ -1,7 +1,7 @@
 // The laptop's lines that every run shares. The words come from docs/SCRIPT.md;
 // change them there too. Personalities live in ./personalities/.
 
-const pause = (ms = 1000) => ({ text: '', pause: ms });
+export const pause = (ms = 1000) => ({ text: '', pause: ms });
 
 const firstOpening = [
   { text: '...', say: '', cps: 3, before: 'think', pause: 900 },

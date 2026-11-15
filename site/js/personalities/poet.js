@@ -1,6 +1,6 @@
 // The poet. Slow and low, and unwell about it.
 
-const pause = (ms = 1000) => ({ text: '', pause: ms });
+import { pause } from '../script.js';
 
 export default {
   id: 'poet',
