@@ -4,7 +4,7 @@ Someone left their laptop unlocked. You open lockyourshit.com on it, click **Arm
 
 ## For the security team
 
-You're the one who decides whether this spreads in your company, so here's what it does and how to check it.
+This part is for you. Everything below can be checked in DevTools.
 
 **What it sends: nothing.** After the page has loaded, it makes zero network requests. A Content Security Policy with `connect-src 'none'` makes that a rule the browser enforces.
 
@@ -12,13 +12,19 @@ You're the one who decides whether this spreads in your company, so here's what 
 
 **What it reads: which key, only to spot two.** There's one `keydown` listener (`site/js/main.js`). It recognises Escape and the right arrow and otherwise only counts presses. What was typed is never kept, shown or sent.
 
-**What it can't do:** touch files, see the screen, block Esc, keep the machine awake or stop it from locking. It never calls Keyboard Lock, Pointer Lock, Wake Lock or any permission prompt. The full never list is in [ADR-0005](docs/adr/0005-nothing-leaves-nothing-stays.md).
+**What it can't do:**
+
+- touch files or see the screen
+- block Esc
+- keep the machine awake or stop it from locking
+
+It never calls Keyboard Lock, Pointer Lock, Wake Lock or any permission prompt. The full never list is in [ADR-0005](docs/adr/0005-nothing-leaves-nothing-stays.md).
 
 **Speech stays on the machine.** The laptop talks through the browser's built-in speech synthesis, and only with voices installed on the machine. Remote voices would send the lines to a server, so they're skipped.
 
 **Esc always works.** In fullscreen the browser owns Esc, and this site never asks for the API that could take it away.
 
-**How to check:** open DevTools, arm it, and watch the Network tab stay empty and the Application tab show one key. Or read the source. It's about 30 KB of hand-written JavaScript with no dependencies, in `site/`.
+**How to check:** open DevTools, arm it, and watch the Network tab stay empty and the Application tab show one key. Or read the source. It's about 34 KB of hand-written JavaScript with no dependencies, in `site/`.
 
 GitHub hosts the page and sees the request for it, like any web host. We don't get those logs.
 

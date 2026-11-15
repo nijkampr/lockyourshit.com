@@ -1,6 +1,6 @@
 # ADR-0002: Arm, wait, trigger
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16
+**Status:** Accepted · 2026-11-15, updated 2026-11-16
 
 ## Context
 
@@ -39,6 +39,15 @@ I had the browser behaviour researched on 16 Nov 2026. Most of it could not be c
 | What a page sees when the OS locks | **Unknown** | The "did it →" link (ADR-0003) |
 | Fullscreen survives a lock and unlock | **Unknown** | Handled both ways (`SPEC.md` section 8) |
 | The browser's "press Esc to exit" notice | Shown on entry for a few seconds. Only the prankster sees it | n/a |
+
+### Learned while building (16 Nov 2026)
+
+Not hardware results. These come from Playwright's engines, locally and in CI.
+
+- **Headless Chromium on macOS has real local voices** and speaks. Speech promises therefore resolve on their own schedule, which exposed a bug where a cancelled line let the old monologue run on inside the next run. Fixed with `run.guard()` (SPEC section 2) and covered by a real-time e2e test.
+- **WebKit grants fullscreen and settles it in real time**, outside a faked clock. Esc pressed in the first few hundred milliseconds can be eaten by the browser. If fullscreen arrives after the visitor already left, the page hands it back.
+- **Firefox under Playwright does not start on this macOS version** ("Could not find profile folder"). Firefox runs the full suite in CI on Linux and passes there.
+- **In fullscreen, Esc can arrive twice:** as `fullscreenchange` and as a keydown. Both are handled, and the exit card ignores the second.
 
 ## Consequences
 

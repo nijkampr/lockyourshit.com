@@ -2,7 +2,7 @@
 
 **One line:** a colleague finds your unlocked laptop, opens lockyourshit.com, arms it and walks off. When you come back, your laptop tells you exactly how long you were gone, what it did with the time, and won't shut up until you press the lock shortcut.
 
-**Status:** plan complete, 16 Nov 2026. Nothing is built. The build starts when René says go.
+**Status:** v1 built, merged and live on the github.io URL, 16 Nov 2026. Left for launch: the probe on real hardware and DNS (`BACKLOG.md` block 6).
 
 ## Reading order
 
@@ -49,7 +49,7 @@ About 45 seconds from trigger to notice. Esc ends it at any point. The right arr
 1. **The prankster gets a trophy.** The notice shows a real duration on a screen that is obviously a joke. Someone photographs it with the victim next to it. That photo goes into the team chat, and the domain is in the photo. The receipt also prints.
 2. **The victim becomes the next prankster.** The last screen has one button. Revenge is a strong motive, and the URL is short enough to type on someone else's keyboard from memory.
 3. **It replaces the cake email.** Every office already has an unlocked-laptop ritual, usually an email from your account promising cake. This is funnier, takes five seconds and costs nobody a cake.
-4. **Security teams can say yes to it.** No install, no requests after load, one documented integer in storage, a CSP that makes phoning home impossible, a page of fine print written for them, source on GitHub. One security person per company approving it is the route to everyone using it.
+4. **Security teams can say yes to it.** No install, no requests after load, one documented integer in storage. A CSP makes phoning home impossible. The fine print is written for them and the source is on GitHub. One security person per company approving it is the route to everyone using it.
 5. **The name does half the work.** People repeat it because they get to say "shit" at work with a valid reason.
 
 ## The panic rule

@@ -12,7 +12,7 @@
 | **The picket** | The union | Full-bleed pink, huge black uppercase type, black rules. A strike poster. |
 | **The receipt** | The union's paperwork | Off-white paper, black mono, dashed rules. A till receipt lying on the pink, slightly crooked. |
 
-The landing page is the picket. Armed, beats 1 and 2, the release and the exit card are the void. The notice is the receipt on the picket. That's the whole system. There is no fourth surface.
+The landing page is the picket. Armed, beats 1 and 2, the release and the exit card are the void. The notice is the receipt on the picket.
 
 ## What I take from itsrene.nl and itsrene.dj
 

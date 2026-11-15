@@ -1,6 +1,6 @@
 # ADR-0006: The voice is a bonus, the text is the show
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16
+**Status:** Accepted · 2026-11-15, updated 2026-11-16
 
 ## Context
 
@@ -24,6 +24,6 @@ Details and numbers are in `SPEC.md` section 6.
 ## Consequences
 
 - The copy has to work both read and heard. Lines like `final_FINAL_v3_really` carry a `say` form.
-- The voice sounds different on every machine. Fine. A laptop should sound like itself.
+- The voice sounds different on every machine.
 - On some machines there is no voice at all: Linux without a speech engine, and browsers whose only English voices are remote. Text only there.
 - Recorded or generated voices could be funnier. They add weight and a production step, so they wait in the backlog.

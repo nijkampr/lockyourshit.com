@@ -1,6 +1,6 @@
 # ADR-0004: The counter is measured here, or it's a visible joke
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16
+**Status:** Accepted · 2026-11-15, updated 2026-11-16
 
 ## Context
 

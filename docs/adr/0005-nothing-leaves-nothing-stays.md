@@ -1,6 +1,6 @@
 # ADR-0005: Nothing leaves, one number stays
 
-**Status:** Proposed · 2026-11-15, updated 2026-11-16 (René allowed one small stored thing)
+**Status:** Accepted · 2026-11-15, updated 2026-11-16 (René allowed one small stored thing)
 
 ## Context
 
