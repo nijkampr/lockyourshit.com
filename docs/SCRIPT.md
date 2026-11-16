@@ -55,6 +55,10 @@ On a phone the arm button is replaced by:
 
 > This needs a laptop. Preferably someone else's.
 
+When the page is framed inside another site, the arm and preview buttons are replaced with a link:
+
+> This only works on lockyourshit.com itself.
+
 With JavaScript off:
 
 > This needs JavaScript. So does your bank. Relax.
