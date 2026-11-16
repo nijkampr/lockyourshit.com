@@ -6,7 +6,7 @@ Owner: René Nijkamp. Domain: `lockyourshit.com` (registered 16 Nov 2026; DNS no
 
 ## Status
 
-The plan is done (16 Nov 2026) and lives in `docs/`. Nothing is built yet. **`docs/` is the source of truth and overrides the starting idea below** where they differ (the map and the CAPTCHA are out of v1, one stored number is in). Start at `docs/BRIEF.md` and follow its reading order. Build in the order of `docs/BACKLOG.md`.
+v1 is built, merged and live at `https://nijkampr.github.io/lockyourshit.com/` (16 Nov 2026). Still open: DNS for lockyourshit.com and the hardware probe (`docs/BACKLOG.md` block 0 and 6). **`docs/` is the source of truth and overrides the starting idea below** where they differ (the map and the CAPTCHA are out of v1, one stored number is in). Start at `docs/BRIEF.md` and follow its reading order. New work goes in the backlog's "Later" section first.
 
 `docs/ANTI-SLOP.md` is a hard gate on design, copy, code and docs. René hates AI slop. Read it before producing anything.
 
