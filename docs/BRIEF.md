@@ -2,7 +2,7 @@
 
 **One line:** a colleague finds your unlocked laptop, opens lockyourshit.com, arms it and walks off. When you come back, your laptop tells you exactly how long you were gone, what it did with the time, and won't shut up until you press the lock shortcut.
 
-**Status:** v1 built, merged and live on the github.io URL, 16 Nov 2026. Left for launch: the probe on real hardware and DNS (`BACKLOG.md` block 6).
+**Status:** v1 built, merged and live at lockyourshit.com, 16 Nov 2026. Left for launch: the probe on real hardware (`BACKLOG.md` block 6).
 
 ## Reading order
 

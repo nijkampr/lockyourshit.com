@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 env:
-  LIVE_URL: https://nijkampr.github.io/lockyourshit.com/
+  LIVE_URL: https://lockyourshit.com/
 
 jobs:
   static:

@@ -19,7 +19,7 @@ Blocks are in order, tickets inside a block too. Sizes: **S** is under an hour, 
 | ID | Ticket |
 |---|---|
 | LYS-001 | ✅ **Register lockyourshit.com.** Done 16 Nov 2026. |
-| LYS-002 | Open. **DNS at the registrar:** the records the builder lists at launch (apex A and AAAA records to GitHub Pages, `www` CNAME to `nijkampr.github.io`). |
+| LYS-002 | ✅ 16 Nov 2026. **DNS at the registrar (site.nl):** the records the builder lists at launch (apex A and AAAA records to GitHub Pages, `www` CNAME to `nijkampr.github.io`). |
 | LYS-003 | **Red pen on `SCRIPT.md`.** Cut what isn't funny. Can happen any time. |
 | LYS-004 | **Run the probe** when Block 2 hands it over, paste the logs back. |
 
@@ -101,7 +101,7 @@ The pipeline goes in first, so every later block is built under the gates.
 | LYS-061 | M | A | ✅ **The slop audit.** A subagent that hasn't seen the code reads every file in `site/` and every doc with `ANTI-SLOP.md` in hand and lists every violation. The coordinator fixes them. |
 | LYS-062 | S | O | ✅ **The security-team test** by hand: DevTools open, a full run, Network and Application tabs. Screenshot for the README. |
 | LYS-063 | S | O | ✅ **Budgets and a last read of every line of copy on screen.** |
-| LYS-064 | M | O | ✅ (domain open) **Repo settings and first deploy,** all through `gh`: Pages source = GitHub Actions, branch protection on `main` requiring the three check jobs, merge the PR when green, watch the deploy, confirm the Pages URL. Set the custom domain and HTTPS once René's DNS resolves. If it doesn't resolve yet, leave the exact records and the one command to run in the hand-over. |
+| LYS-064 | M | O | ✅ **Repo settings and first deploy,** all through `gh`: Pages source = GitHub Actions, branch protection on `main` requiring the three check jobs, merge the PR when green, watch the deploy, confirm the Pages URL. Set the custom domain and HTTPS once René's DNS resolves. If it doesn't resolve yet, leave the exact records and the one command to run in the hand-over. |
 | LYS-065 | S | René | **First real victim.** |
 
 **v1 is done here.**

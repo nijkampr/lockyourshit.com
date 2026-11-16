@@ -2,11 +2,11 @@
 
 A prank site for people who walk away from their laptop without locking it. A colleague finds the open laptop, opens lockyourshit.com, arms it, and walks off. When the owner comes back, their laptop has a few words to say about being abandoned.
 
-Owner: René Nijkamp. Domain: `lockyourshit.com` (registered 16 Nov 2026; DNS not pointed at GitHub Pages yet). Repo: `github.com/nijkampr/lockyourshit.com`.
+Owner: René Nijkamp. Domain: `lockyourshit.com` (registered 16 Nov 2026, DNS at site.nl pointed at GitHub Pages the same day). Repo: `github.com/nijkampr/lockyourshit.com`.
 
 ## Status
 
-v1 is built, merged and live at `https://nijkampr.github.io/lockyourshit.com/` (16 Nov 2026). Still open: DNS for lockyourshit.com and the hardware probe (`docs/BACKLOG.md` block 0 and 6). **`docs/` is the source of truth and overrides the starting idea below** where they differ (the map and the CAPTCHA are out of v1, one stored number is in). Start at `docs/BRIEF.md` and follow its reading order. New work goes in the backlog's "Later" section first.
+v1 is built, merged and live at `https://lockyourshit.com/` (16 Nov 2026). Still open: the hardware probe (`docs/BACKLOG.md` block 6). **`docs/` is the source of truth and overrides the starting idea below** where they differ (the map and the CAPTCHA are out of v1, one stored number is in). Start at `docs/BRIEF.md` and follow its reading order. New work goes in the backlog's "Later" section first.
 
 `docs/ANTI-SLOP.md` is a hard gate on design, copy, code and docs. René hates AI slop. Read it before producing anything.
 

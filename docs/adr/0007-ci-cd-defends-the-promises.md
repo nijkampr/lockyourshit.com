@@ -60,4 +60,4 @@ The DNS records at the registrar are the one thing René does by hand.
 - A change that adds a `fetch`, a second storage key, a gradient or an em-dash can't reach production.
 - Merging a green pull request into `main` is a deploy. That is the intended way to ship.
 - CI takes a couple of minutes because of three browser engines. Free on a public repo.
-- Until the domain exists, the site deploys to `nijkampr.github.io/lockyourshit.com/` and the smoke test targets that URL. Relative URLs in `site/` make that work (the 404 page is the exception and looks plain there).
+- The site lives at `lockyourshit.com` and the smoke test targets that URL. Relative URLs in `site/` mean it also works at `nijkampr.github.io/lockyourshit.com/`, except the 404 page, which looks plain there.
