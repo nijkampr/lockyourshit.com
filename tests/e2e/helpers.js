@@ -20,9 +20,10 @@ export async function open(page, path = '/') {
       window.__violations = [...(window.__violations ?? []), `${event.violatedDirective} ${event.blockedURI}`];
     });
   });
+  // Paused before the page loads: a slow start can't run the fake clock past the pause point.
   await page.clock.install({ time: 0 });
-  await page.goto(path);
   await page.clock.pauseAt(1000);
+  await page.goto(path);
   await page.locator('#voice').click();
   await expect(page.locator('#voice')).toHaveAttribute('aria-pressed', 'false');
   return problems;
